@@ -1,9 +1,34 @@
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'model_provider.dart'; // Make sure to import your CalculatorModel
 
 class CalculatorApp extends StatelessWidget {
+  // Dynamic list of button data (text and color)
+  final List<List<dynamic>> buttonData = [
+    ['C', Colors.grey[200]!],
+    ['%', Colors.grey[200]!],
+    ['⌫', Colors.grey[200]!],
+    ['/', Colors.orange],
+    ['7', Colors.grey[200]!],
+    ['8', Colors.grey[200]!],
+    ['9', Colors.grey[200]!],
+    ['*', Colors.orange],
+    ['4', Colors.grey[200]!],
+    ['5', Colors.grey[200]!],
+    ['6', Colors.grey[200]!],
+    ['-', Colors.orange],
+    ['1', Colors.grey[200]!],
+    ['2', Colors.grey[200]!],
+    ['3', Colors.grey[200]!],
+    ['+', Colors.orange],
+    ['.', Colors.grey[200]!],
+    ['0', Colors.grey[200]!],
+    ['00', Colors.grey[200]!],
+    ['=', Colors.blue],
+  ];
+
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -13,7 +38,7 @@ class CalculatorApp extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            // Display Container
+            // Display Container with logo
             Container(
               padding: EdgeInsets.all(screenHeight * 0.02),
               alignment: Alignment.centerRight,
@@ -21,8 +46,7 @@ class CalculatorApp extends StatelessWidget {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-
-                  Icon(Icons.rocket_launch_rounded,color: Colors.red,),
+                  Icon(Icons.rocket_launch_rounded, color: Colors.red),
                   SizedBox(width: screenWidth * 0.01),
                   Text(
                     "RadicalStart",
@@ -33,38 +57,16 @@ class CalculatorApp extends StatelessWidget {
                 ],
               ),
             ),
+
+            // GridView for calculator buttons
             Expanded(
               child: GridView.builder(
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 4,
                   childAspectRatio: 1,
                 ),
-                itemCount: 20,
+                itemCount: buttonData.length,
                 itemBuilder: (context, index) {
-                  final buttonData = [
-                    ['C', Colors.grey[200]!],
-                    ['%', Colors.grey[200]!],
-                    ['⌫', Colors.grey[200]!],
-                    ['/', Colors.orange],
-                    ['7', Colors.grey[200]!],
-                    ['8', Colors.grey[200]!],
-                    ['9', Colors.grey[200]!],
-                    ['*', Colors.orange],
-                    ['4', Colors.grey[200]!],
-                    ['5', Colors.grey[200]!],
-                    ['6', Colors.grey[200]!],
-                    ['-', Colors.orange],
-                    ['1', Colors.grey[200]!],
-                    ['2', Colors.grey[200]!],
-                    ['3', Colors.grey[200]!],
-                    ['+', Colors.orange],
-                    ['.', Colors.grey[200]!],
-                    ['0', Colors.grey[200]!],
-                    ['00', Colors.grey[200]!],
-                    ['=', Colors.blue],
-                  ];
-
-                  // Pass context here
                   return buildButton(
                     context, // pass context
                     buttonData[index][0] as String,
@@ -75,6 +77,8 @@ class CalculatorApp extends StatelessWidget {
                 },
               ),
             ),
+
+            // Display Result Container
             Container(
               padding: EdgeInsets.all(screenHeight * 0.02),
               alignment: Alignment.centerRight,
@@ -96,7 +100,7 @@ class CalculatorApp extends StatelessWidget {
     );
   }
 
-  // Add BuildContext parameter here
+  // Build Button Widget
   Widget buildButton(BuildContext context, String buttonText, Color color,
       double screenWidth, double screenHeight) {
     return Padding(
@@ -121,6 +125,7 @@ class CalculatorApp extends StatelessWidget {
     );
   }
 
+  // Handle button press based on the type of button
   void handleButtonPress(String button, BuildContext context) {
     final calculatorModel = Provider.of<CalculatorModel>(context, listen: false);
 
